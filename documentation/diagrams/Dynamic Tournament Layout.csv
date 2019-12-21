@@ -1,0 +1,62 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1
+1,Page,,,,,,,,,Page 1
+2,Page,Site Maps,1,,,,,,,Login/Signup Page
+3,Page,Site Maps,1,,,,,,,Current Tournaments
+4,Page,Site Maps,1,,,,,,,No Current Tournaments
+5,Page,Site Maps,1,,,,,,,Page
+6,Home,Site Maps,1,,,,,,,Home
+7,Success,Site Maps,1,,,,,,,Login
+8,Profile,Site Maps,1,,,,,,,Profile
+9,Game,Site Maps,1,,,,,,,New Tournament
+10,Or,Flowchart Shapes,1,,,,,,,
+11,Form,Site Maps,1,,,,,,,Signup
+12,Jobs,Site Maps,1,,,,,,,Join Tournament
+13,Page,Site Maps,1,,,,,,,Search for Open Game
+14,Page,Site Maps,1,,,,,,,Create new Game
+15,Page,Site Maps,1,,,,,,,User Profile
+16,Map,Site Maps,1,,,,,,,Current Tournaments
+17,Connector,Flowchart Shapes,1,,,,,,,Options
+18,Jobs,Site Maps,1,,,,,,,Join Tournament
+19,Page,Site Maps,1,,,,,,,Search for Open Game
+20,Connector,Flowchart Shapes,1,,,,,,,Options
+21,Page,Site Maps,1,,,,,,,List of Current Tournaments
+22,Curly Brace Note,Flowchart Shapes,1,,,,,,,
+23,Curly Brace Note,Flowchart Shapes,1,,,,,,,
+24,Preparation,Flowchart Shapes,1,,,,,,,Client GET request
+25,Decision,Flowchart Shapes,1,,,,,,,Is Client Authorized?
+26,Page,Site Maps,1,,,,,,,Validate Login Credentials
+27,Page,Site Maps,1,,,,,,,Save new User to DB
+28,Connector,Flowchart Shapes,1,,,,,,,Options
+29,Or,Flowchart Shapes,1,,,,,,,
+30,Decision,Flowchart Shapes,1,,,,,,,Already in Tournaments?
+31,Settings,Site Maps,1,,,,,,,Settings
+32,Page,Site Maps,1,,,,,,,User Settings (INCL Logout)
+33,Login,Site Maps,1,,,,,,,User Sign In
+34,Line,,1,,,10,6,None,Arrow,
+35,Line,,1,,,9,14,None,Measure,
+36,Line,,1,,,12,13,None,Measure,
+37,Line,,1,,,6,30,None,Arrow,
+38,Line,,1,,,17,12,None,Arrow,
+39,Line,,1,,,17,9,None,Arrow,
+40,Line,,1,,,18,19,None,Measure,
+41,Line,,1,,,20,16,None,Arrow,
+42,Line,,1,,,20,18,None,Arrow,
+43,Line,,1,,,16,,None,Measure,
+44,Line,,1,,,25,10,None,Arrow,Yes
+45,Line,,1,,,25,33,None,Arrow,No
+46,Line,,1,,,24,25,None,Arrow,
+47,Line,,1,,,28,7,None,Arrow,
+48,Line,,1,,,28,11,None,Arrow,
+49,Line,,1,,,7,26,None,Arrow,
+50,Line,,1,,,11,27,None,Arrow,
+51,Line,,1,,,27,29,None,Arrow,
+52,Line,,1,,,26,29,None,Arrow,
+53,Line,,1,,,29,10,None,Arrow,
+54,Line,,1,,,30,20,None,Arrow,Yes
+55,Line,,1,,,30,17,None,Arrow,No
+56,Line,,1,,,31,32,None,Measure,
+57,Line,,1,,,6,8,Hollow Arrow,Hollow Arrow,
+58,Line,,1,,,8,15,None,Measure,
+59,Line,,1,,,33,28,None,Arrow,
+60,Line,,1,,,32,33,None,Arrow,
+61,Line,,1,,,4,,None,None,
