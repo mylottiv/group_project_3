@@ -1,6 +1,8 @@
 import React from 'react';  
-import Bracket from './components/Bracket.js';
+import {Bracket, Node, Round} from './components';
 import {Switch, Route, Link} from 'react-router-dom';
+
+
   class App extends React.Component {
     constructor() {
       super();
@@ -91,26 +93,38 @@ import {Switch, Route, Link} from 'react-router-dom';
       
           const tree = [];
       
+          // tree.push(<Round row={[<Node content={'champion'}/>]}/>);
+
           // Traverse every row in the bracket array
+          // Including the branch rows
           // log2(arr.length + 1) - 1 = rows
-          for (let i = 0; i <= (Math.log2(arr.length + 1) - 1); i++) {
+          for (let i = 0; i <= (Math.log2(arr.length + 1) - 1) * 2; i++) {
       
             // Traverse every node in the bracket row
             // Nodes per row is 2 ^ row (1, 2, 4, 8 etc)
             let row = [];
-            for (let j = 0; j < Math.pow(2, i); j++) {
-      
-              row.push(
-              <div className='col text-center card'>
-                {(i <= 1) ? i+j : Math.pow(2, i) - 1 + j}
-              </div>)
-            
+            let branches = false;
+            if (i % 2 === 0) {
+              let trueIndex = (i !== 0) ? i/2 : i;
+              // console.log(i, trueIndex);
+              for (let j = 0; j < Math.pow(2, trueIndex); j++) {
+                
+                let content=(trueIndex <= 1) ? trueIndex+j : Math.pow(2, trueIndex) - 1 + j;
+        
+                row.push(<Node content={content}/>)
+              
+              };
+            }
+            else {
+              let trueIndex = (i !== 1) ? Math.floor(i/2) : i - 1;
+              console.log(i, trueIndex);
+              for (let j = 0; j < Math.pow(2, trueIndex); j++) {
+                row.push(<div className='col text-center h-100'><img className='w-50 h-100' src={'./branch.svg'}></img></div>)
+              }
+              branches = true;
             }
       
-            tree.push(
-            <div className='row'>
-              {row}
-            </div>)
+            tree.push(<Round branches={branches} row={row}/>)
       
           }
       
