@@ -78,7 +78,7 @@ import {Switch, Route, Link} from 'react-router-dom';
               };
               let content = (row === size) ? 'Name' : rounds[row];
               console.log('content', content);
-              bracket.push({content: content, index: i, parent: {index: parent.index, child: parent.child}});
+              bracket.push({content: content, index: i, parent: parent.index});
       
           };
       
@@ -103,15 +103,14 @@ import {Switch, Route, Link} from 'react-router-dom';
             // Traverse every node in the bracket row
             // Nodes per row is 2 ^ row (1, 2, 4, 8 etc)
             let row = [];
-            let branches = false;
             if (i % 2 === 0) {
               let trueIndex = (i !== 0) ? i/2 : i;
               // console.log(i, trueIndex);
               for (let j = 0; j < Math.pow(2, trueIndex); j++) {
                 
-                let content=(trueIndex <= 1) ? trueIndex+j : Math.pow(2, trueIndex) - 1 + j;
+                let payload=(trueIndex <= 1) ? arr[trueIndex+j] : arr[Math.pow(2, trueIndex) - 1 + j];
         
-                row.push(<Node content={content}/>)
+                row.push(<Node payload={payload}/>)
               
               };
             }
@@ -121,10 +120,9 @@ import {Switch, Route, Link} from 'react-router-dom';
               for (let j = 0; j < Math.pow(2, trueIndex); j++) {
                 row.push(<div className='col text-center h-100'><img className='w-50 h-100' src={'./branch.svg'}></img></div>)
               }
-              branches = true;
             }
       
-            tree.push(<Round branches={branches} row={row}/>)
+            tree.push(<Round round={i} row={row}/>)
       
           }
       
@@ -137,15 +135,23 @@ import {Switch, Route, Link} from 'react-router-dom';
   render() {
     return (
     <div className='container'>
-      <h3 className='btn-group-lg' role='group' aria-label='Basic example'>Choose Bracket Size (# of rounds):
-      <Link className='btn btn-primary ml-1 mr-1' to="/1"><h4>1</h4></Link>
-      <Link className='btn btn-primary ml-1 mr-1' to="/2"><h4>2</h4></Link>
-      <Link className='btn btn-primary ml-1 mr-1' to="/3"><h4>3</h4></Link>
-      <Link className='btn btn-primary ml-1 mr-1' to="/4"><h4>4</h4></Link>
-      <Link className='btn btn-primary ml-1 mr-1' to="/5"><h4>5</h4></Link>
-      </h3>
+      <div className='row'>
+        <h3 className='btn-group-lg' role='group' aria-label='Basic example'>Choose Bracket Size (# of rounds):
+          <Link className='btn btn-primary ml-1 mr-1' to="/1"><h4>1</h4></Link>
+          <Link className='btn btn-primary ml-1 mr-1' to="/2"><h4>2</h4></Link>
+          <Link className='btn btn-primary ml-1 mr-1' to="/3"><h4>3</h4></Link>
+          <Link className='btn btn-primary ml-1 mr-1' to="/4"><h4>4</h4></Link>
+          <Link className='btn btn-primary ml-1 mr-1' to="/5"><h4>5</h4></Link>
+        </h3>
+      </div>
       <Switch>
-        <Route path='/:number' render={(props) => <Bracket {...props} generateBracket={this.state.generateBracket} renderFromArray={this.state.renderFromArray}/>} />
+        <Route path='/:number' render={(props) => {
+          return (
+            <div className='row' id='tournament-container'>
+              <Bracket {...props} bracket={this.state.renderFromArray(this.state.generateBracket(parseInt(props.match.params.number)))}/>
+            </div>
+          )
+        }}/>
       </Switch>
     </div>
     );

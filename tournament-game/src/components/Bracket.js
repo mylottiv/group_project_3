@@ -1,11 +1,10 @@
 import React from 'react';
 
 function Bracket(props) {
-    const render = props.renderFromArray(props.generateBracket(parseInt(props.match.params.number)));
     return (
-        <>
-            {render}
-        </>
+        <div className='col' id='bracket'>
+            {props.bracket}
+        </div>
     )
 
 }
