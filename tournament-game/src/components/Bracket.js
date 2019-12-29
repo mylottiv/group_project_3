@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
+import {BracketContext} from './BracketContext';
 
 function Bracket(props) {
-    return (
-        <div className='col' id='bracket'>
-            {props.bracket}
-        </div>
-    )
+
+        const tree = useContext(BracketContext);
+
+        return (
+            <div className='col' id='bracket'>
+                {tree}
+            </div>
+        );
 
 }
 
