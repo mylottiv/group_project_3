@@ -11,4 +11,19 @@ function Round(props) {
     )
 }
 
+/*
+
+function Round(props) {
+    const {stage} = props;
+    
+    return (
+        <>
+            <Branch stage={stage}/>
+            <Pairings stage={stage}/>
+        </>
+    )
+}
+
+*/
+
 export default Round;

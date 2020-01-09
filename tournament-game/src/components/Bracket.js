@@ -13,4 +13,28 @@ function Bracket(props) {
 
 }
 
+/* 
+
+function Bracket(props) {
+
+    const size = useContext(BracketContext);
+
+    const tree = [];
+
+    tree.push(<Champion />);
+
+    for (let i = 1; i <= size; i++) {
+        tree.push(<Round stage={i}>);
+    }
+
+    return (
+        <div className='col' id='bracket'>
+            {tree}
+        </div>
+    )
+
+}
+
+*/
+
 export default Bracket;
