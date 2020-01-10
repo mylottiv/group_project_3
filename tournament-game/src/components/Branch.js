@@ -5,10 +5,10 @@ function Branch(props) {
 
     const branchImages = [];
 
-    for (let i = 0; i <= Math.pow(2, (stage - 1)); i++) {
-        
+    for (let i = 1; i <= Math.pow(2, (stage - 1)); i++) {
+        console.log('stage', stage, Math.pow(2, (stage - 1)));
         branchImages.push(
-            <div className='col text-center h-100'>
+            <div className='col text-center h-100' key={'Stage-' + stage + '-image-' + i}>
                 <img className='w-50 h-100' src={'./branch.svg'} />
             </div>
         )

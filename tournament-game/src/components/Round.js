@@ -1,17 +1,18 @@
 import React from 'react';
+import Branch from './Branch';
+import Pairings from './Pairings';
 
-function Round(props) {
 
-    const {id, row} = props;
+// function Round(props) {
 
-    return (
-        <div className='row' id={id}>
-            {row}
-        </div>
-    )
-}
+//     const {id, row} = props;
 
-/*
+//     return (
+//         <div className='row' id={id}>
+//             {row}
+//         </div>
+//     )
+// }
 
 function Round(props) {
     const {stage} = props;
@@ -23,7 +24,5 @@ function Round(props) {
         </>
     )
 }
-
-*/
 
 export default Round;
