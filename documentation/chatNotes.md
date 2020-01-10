@@ -37,3 +37,6 @@ The the user json would be something like this under the assumption that the tou
         }
     ]
 }
+
+Nothiby tangible to report so far, been looking into "hydration" which really seems to be referring to rendering React components on the server, then sending these components fully rendered to the client, where the react client can then take it from there. While this seems like a definite possibility to allow game "plugins", it seems mainly people use this workflow to optimize performance and search engine results, and it has the potential of opening up a whole can of worms vis-a-vis customising the webpack configuration and compiling JSX server side, definitely a step up in complexity from how we've worked with React so far.
+I'm going to keep looking into it, but I'm more interested in trying to see how other React projects handle concepts like "plugins" or "mods" on the client end, other than just storing all the code inside the react client.
