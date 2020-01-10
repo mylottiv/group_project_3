@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
-import {BracketContext} from './BracketContext';
+import {BracketProvider} from './BracketContext';
+import {TourneyContext} from './TourneyContext';
 import Champion from './Champion';
 import Round from './Round';
 
@@ -17,7 +18,7 @@ import Round from './Round';
 
 function Bracket(props) {
 
-    const size = useContext(BracketContext).size;
+    const size = useContext(TourneyContext)[0];
 
     const tree = [];
 
@@ -32,7 +33,9 @@ function Bracket(props) {
 
     return (
         <div className='col' id='bracket'>
-            {tree}
+            <BracketProvider {...props} size={size}>
+                {tree}
+            </BracketProvider>
         </div>
     )
 

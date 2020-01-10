@@ -26,6 +26,8 @@ function Node(props) {
 
     const selectNode = useContext(BracketContext).selectNode;
 
+    console.log('TEST', array, selectNode);
+
     const {content, parent, childNodes, sibling, selected, loser, primed} = array[index];
     
     const [leftChild, rightChild] = childNodes;

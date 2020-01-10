@@ -1,16 +1,17 @@
-import React, {useState, createContext} from 'react';
+import React, {useState, useContext, createContext} from 'react';
+import {TourneyContext} from './TourneyContext'
 import {generateBracket, renderTree, selectNodeRaw} from '../util';
 
 export const BracketContext = createContext();
 
 export const BracketProvider = (props) => {
     
-    console.log('here at the provider');
-    const size = parseInt(props.match.params.number);
+    const size = props.size;
+    // const size = parseInt(props.match.params.number);
     const [array, setArray] = useState(generateBracket(size));
     const selectNode = selectNodeRaw(array, setArray);
     // const tree = renderTree(array, selectNode(array, setArray));
-    const value = {array, selectNode, size}
+    const value = {array, selectNode}
 
 
     return (

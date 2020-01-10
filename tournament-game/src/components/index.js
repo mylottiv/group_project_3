@@ -8,3 +8,5 @@ export {default as Champion} from './Champion';
 export {default as Pairings} from './Pairings';
 export {BracketContext} from './BracketContext';
 export {BracketProvider} from './BracketContext';
+export {TourneyContext} from './TourneyContext';
+export {TourneyProvider} from './TourneyContext';
