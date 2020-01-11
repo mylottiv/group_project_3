@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {BracketProvider} from './BracketContext';
 import {TourneyContext} from './TourneyContext';
 import Champion from './Champion';
-import Round from './Round';
 
 // function Bracket(props) {
 
@@ -25,11 +24,6 @@ function Bracket(props) {
     tree.push(<Champion key='champion'/>);
 
     console.log('TREE');
-
-    for (let i = 1; i <= size; i++) {
-        tree.push(<Round key={'round-' + i} stage={i} />);
-        console.log('tree', tree);
-    }
 
     return (
         <div className='col' id='bracket'>
