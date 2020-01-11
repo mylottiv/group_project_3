@@ -39,7 +39,7 @@
 
 import React from "react";
 import NavBar from "./components/NavBar";
-
+import {Tournament, TourneyProvider, Bracket} from "./components";
 // New - import the React Router components, and the Profile page component
 import { Router, Route, Switch } from "react-router-dom";
 import Profile from "./components/Profile";
@@ -58,7 +58,19 @@ function App() {
         <Switch>
           <Route path="/" exact />
           {/* NEW - Modify the /profile route to use PrivateRoute instead of Route */}
-          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute exact path="/profile" render={(props) => (<Profile />)} />
+          <Route exact path="/tournament" render={(props) => (<Tournament />)} />
+          <Route path='/tournament/:number' 
+            render={(props) => {
+              return (
+              <div className='row' id='tournament-container'>
+                <TourneyProvider {...props}>
+                    <Bracket />
+                </TourneyProvider>
+              </div>
+              )
+            }}
+          />
         </Switch>
       </Router>
     </div>
