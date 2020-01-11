@@ -1,4 +1,4 @@
-const selectNode = (array, setArray) => (target, sibling, parent) => {
+const selectNodeRaw = (array, setArray) => (target, sibling, parent) => {
     // Champion base case
     if (target === 0 && array[1].primed && array[2].primed) {
         setArray(array.map((elem, i) => {
@@ -11,7 +11,7 @@ const selectNode = (array, setArray) => (target, sibling, parent) => {
     else if (!array[target].primed || !array[sibling].primed) {
         return;
     }
-    setArray(array.map(
+    return setArray(array.map(
         (elem, i) => {
             if (i !== target) {
                 if (i === sibling) {
@@ -31,4 +31,4 @@ const selectNode = (array, setArray) => (target, sibling, parent) => {
     ));
 };
 
-export default selectNode;
+export default selectNodeRaw;
