@@ -23,6 +23,11 @@ function Bracket(props) {
 
     tree.push(<Champion key='champion'/>);
 
+    for (let i=1; i <= size; i++) {
+        tree.push(<Round stage={i} />)
+    }
+
+
     console.log('TREE');
 
     return (
