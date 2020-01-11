@@ -20,7 +20,7 @@ function Round(props) {
     return (
         <>
             <Branch stage={stage}/>
-            <Pairings stage={stage}/>
+            <Pairings stage={stage}/>   
         </>
     )
 }
