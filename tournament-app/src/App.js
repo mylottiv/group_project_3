@@ -59,8 +59,8 @@ function App() {
           <Route path="/" exact />
           {/* NEW - Modify the /profile route to use PrivateRoute instead of Route */}
           <PrivateRoute exact path="/profile" render={(props) => (<Profile />)} />
-          <Route exact path="/tournament" render={(props) => (<Tournament />)} />
-          <Route path='/tournament/:number' 
+          <Route path="/tournament" component={(props) => (<Tournament {...props}/>)} />
+          {/* <Route path='/tournament/:number' 
             render={(props) => {
               return (
               <div className='row' id='tournament-container'>
@@ -70,7 +70,7 @@ function App() {
               </div>
               )
             }}
-          />
+          /> */}
         </Switch>
       </Router>
     </div>

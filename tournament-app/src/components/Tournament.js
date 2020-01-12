@@ -4,12 +4,13 @@ import {Switch, Route, Link} from 'react-router-dom';
 
 function Tournament(props) {
 
+  console.log(props)
   return (
     <div className='container'>
       <DebugToolbar />
-      {/* <Switch>
-        <Route path='/:number' 
+        <Route path={`${props.match.path}/:number`}
           render={(props) => {
+            console.log('hit');
             return (
             <div className='row' id='tournament-container'>
               <TourneyProvider {...props}>
@@ -19,7 +20,6 @@ function Tournament(props) {
             )
           }}
          />
-      </Switch> */}
     </div>
   )
 };
