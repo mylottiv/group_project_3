@@ -3,7 +3,7 @@ import {RoundInfo} from '../game';
 
 function Header(props) {
     return (
-        <div className='row'>
+        <div className='row card-header'>
             <RoundInfo />
         </div>
     )

@@ -2,7 +2,7 @@ import React from 'react';
 
 function OppChosen() {
     return (
-        <div className='col'>OppChosen</div>
+        <div className='col text-center'>OppChosen</div>
     )
 }
 

@@ -3,7 +3,7 @@ import {Header, OppArea, PlayerArea} from '../game'
 
 function Game(props) {
     return (
-        <div className='col'>
+        <div className='col card'>
             <Header />
             <OppArea />        
             <PlayerArea />

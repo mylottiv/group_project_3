@@ -2,7 +2,7 @@ import React from 'react';
 
 function PlayerChosen() {
     return (
-        <div className='col'>PlayerChosen</div>
+        <div className='col text-center'>PlayerChosen</div>
     )
 }
 

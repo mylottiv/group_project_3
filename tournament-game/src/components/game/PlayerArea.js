@@ -3,7 +3,7 @@ import {MoveSelect, PlayerInfo, PlayerScore, PlayerChosen} from '../game';
 
 function PlayerArea(props) {
     return (
-        <div className='row'>
+        <div className='row card-content'>
             <div className='col'>
                 <div className='row'>
                     <PlayerInfo />

@@ -2,7 +2,7 @@ import React from 'react';
 
 function OppScore() {
     return (
-        <div className='col'>OppScore</div>
+        <div className='col text-center'>OppScore</div>
     )
 }
 
