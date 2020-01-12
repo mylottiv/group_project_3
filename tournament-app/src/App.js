@@ -59,6 +59,7 @@ function App() {
           <Route path="/" exact />
           {/* NEW - Modify the /profile route to use PrivateRoute instead of Route */}
           <PrivateRoute path="/profile" component={Profile} />
+          
         </Switch>
       </Router>
     </div>
