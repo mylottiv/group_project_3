@@ -2,7 +2,7 @@ import React from 'react';
 
 function RoundInfo(props) {
     return (
-        <div className='col text-center'>RoundInfo</div>
+        <h3 className='col card-title text-center'>RoundInfo</h3>
     )
 }
 

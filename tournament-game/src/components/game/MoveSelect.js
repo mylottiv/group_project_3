@@ -3,10 +3,10 @@ import {MoveButton} from '../game';
 
 function MoveSelect(props) {
     return (
-        <div className='row text-center'>
-            <MoveButton move='Rock' />
-            <MoveButton move='Paper' />
-            <MoveButton move='Scissors' />
+        <div className='row card-body btn-group-lg text-center'>
+            <MoveButton move='rock' />
+            <MoveButton move='paper' />
+            <MoveButton move='scissors' />
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {OppInfo, OppScore, OppChosen} from '../game';
 
 function OppArea(props) {
     return (
-        <div className='row card-content'>
+        <div className='row card-body'>
             <div className='col'>
                 <div className='row'>
                     <OppInfo />
@@ -11,6 +11,7 @@ function OppArea(props) {
                 <div className='row'>
                     <OppScore />
                     <OppChosen />
+                    <div className='col' />
                 </div>
             </div>
         </div>

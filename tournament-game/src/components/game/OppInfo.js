@@ -2,7 +2,7 @@ import React from 'react';
 
 function OppInfo() {
     return (
-        <div className='col text-center'>OppInfo</div>
+        <h4 className='col card-title text-center'>OppInfo</h4>
     )
 }
 

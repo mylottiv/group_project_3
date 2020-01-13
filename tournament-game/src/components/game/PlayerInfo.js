@@ -2,7 +2,7 @@ import React from 'react';
 
 function PlayerInfo() {
     return (
-        <div className='col text-center'>PlayerInfo</div>
+        <h4 className='col card-title text-center'>PlayerInfo</h4>
     )
 }
 
