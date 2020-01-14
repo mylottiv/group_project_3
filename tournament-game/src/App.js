@@ -1,5 +1,5 @@
 import React from 'react';  
-import {Bracket, TourneyProvider, DebugToolbar} from './components';
+import {Bracket, TourneyProvider, DebugToolbar} from './components/tournament';
 import {Switch, Route, Link} from 'react-router-dom';
 import {Game} from './components/game';
 

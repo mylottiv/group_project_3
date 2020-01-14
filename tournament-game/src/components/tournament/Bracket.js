@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {BracketProvider, TourneyContext, Champion, Round} from '../components';
+import {BracketProvider, TourneyContext, Champion, Round} from '../tournament';
 
 // function Bracket(props) {
 //         const tree = useContext(BracketContext);
