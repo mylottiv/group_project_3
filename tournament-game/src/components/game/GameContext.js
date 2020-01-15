@@ -78,9 +78,6 @@ export const GameProvider = (props) => {
     }, [value.state.count])
     // useEffect(() => winnerEvaluation()(value.state.playerMove, value.state.oppMove, value.dispatch), [value.state.count]);
 
-
-
-
     return (
         <GameContext.Provider value={value}>
             {props.children}
