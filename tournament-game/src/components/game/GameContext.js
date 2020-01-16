@@ -11,44 +11,30 @@ export const GameProvider = (props) => {
     const reducer = (state, action) => {
         switch(action.type) {
             case 'player_choose_move':
-                return {...state, playerMove: action.payload, count: state.count + 1};
+                return {...state, playerMove: action.payload, ready: !state.ready};
             case 'opp_choose_move':
                 return {...state, oppMove: action.payload};
             case 'increment_score':
                 return {...state, playerScore: state.playerScore + 1, oppScore: state.oppScore + 1}
-            case 'increment_player_score':
-                return {...state, playerScore: state.playerScore + 1}
-            case 'increment_opp_score':
-                return {...state, oppScore: state.oppScore + 1}
+            case 'player_wins_round':
+                return {...state, playerScore: state.playerScore + 1, ready: false, roundWinner: 'Player'}
+            case 'player_loses_round':
+                return {...state, oppScore: state.oppScore + 1, ready: false, roundWinner: 'Opp'}
+            case 'draw':
+                return {...state, oppScore: state.oppScore + 1, playerScore: state.playerScore + 1, ready: false, roundWinner: 'Draw'}
+            case 'player_wins_match':
+                return {...state, matchWinner: 'Player'}
+            case 'player_loses_match':
+                return {...state, matchWinner: 'Opp'}
             case 'initialize_state':
                 return {...action.payload};
+            case 'reset_moves':
+                return {...state, playerMove: '', oppMove: '', ready: false, roundWinner: ''}
+            case 'ready':
+                return{...state, ready: true}
             default:
                 return state;
         }
-    }
-
-    const winnerEvaluation = () => (playerMove, oppMove, dispatch) => {
-
-        if (playerMove === oppMove) {
-            if (playerMove === '' && oppMove === '') {
-                return;
-            }
-            console.log(playerMove, oppMove, 'Draw');
-            return dispatch({type: 'increment_score'})
-        }
-        else if (playerMove === 'rock' && oppMove === 'scissors' ||
-         playerMove === 'paper' && oppMove === 'rock' ||
-          playerMove === 'scissors' && oppMove === 'paper') {
-              console.log(playerMove, oppMove, 'Player wins');
-              return dispatch({type: 'increment_player_score'})
-          }
-        else if (oppMove === 'rock' && playerMove === 'scissors' ||
-        oppMove === 'paper' && playerMove === 'rock' ||
-         oppMove === 'scissors' && playerMove === 'paper') {
-             console.log(playerMove, oppMove, 'Opp wins');
-             return dispatch({type: 'increment_opp_score'})
-         }
-        return dispatch({type:'increment_score'})
     }
 
     const [state, dispatch] = useReducer(reducer, {})
@@ -60,9 +46,33 @@ export const GameProvider = (props) => {
         socket.on('initial state', (data) => {
             dispatch({type: 'initialize_state', payload: data});
         })
-        socket.on('opp_move_selected', (data) => {
+        socket.on('opp move selected', (data) => {
             console.log('testy');
             dispatch({type: 'opp_choose_move', payload: data});
+        });
+        socket.on('player wins round', () => {
+            console.log('player wins round');
+            dispatch({type: 'player_wins_round'});
+        });
+        socket.on('player loses round', () => {
+            console.log('player loses round');
+            dispatch({type: 'player_loses_round'});
+        });
+        socket.on('draw', () => {
+            console.log('draw');
+            dispatch({type: 'draw'});
+        })
+        socket.on('new round', () => {
+            console.log('new round');
+            dispatch({type: 'reset_moves'});
+        });
+        socket.on('player wins match', () => {
+            console.log('player wins match');
+            dispatch({type: 'player_wins_match'});
+        })
+        socket.on('player loses match', () => {
+            console.log('player loses match');
+            dispatch({type: 'player_loses_match'});
         })
         // return () => {
         //     socket.emit('disconnect');
@@ -70,12 +80,18 @@ export const GameProvider = (props) => {
         // }
     }, [])
     useEffect(() => {
-        console.log(value.state.count, value.state.playerMove);
-        if (value.state.count > 0) {
-            console.log('triggered', value.state.count, value.state.playerMove);
-            socket.emit('move selected', {move: value.state.playerMove}, ({error}) => alert(error));
+        console.log(value.state.ready, value.state.playerMove);
+        if (value.state.ready === true) {
+            if (value.state.roundWinner === '') {
+                console.log('triggered', value.state.ready, value.state.playerMove);
+                socket.emit('move selected', {move: value.state.playerMove}, ({error}) => alert(error));
+            }
+            else {
+                socket.emit('ready for next round', {}, ({error}) => alert(error))
+            }
         }
-    }, [value.state.count])
+
+    }, [value.state.ready])
     // useEffect(() => winnerEvaluation()(value.state.playerMove, value.state.oppMove, value.dispatch), [value.state.count]);
 
     return (

@@ -11,5 +11,6 @@ export {default as PlayerArea} from './PlayerArea';
 export {default as PlayerInfo} from './PlayerInfo';
 export {default as PlayerScore} from './PlayerScore';
 export {default as RoundInfo} from './RoundInfo';
+export {default as Results} from './Results';
 export {GameContext} from './GameContext';
 export {GameProvider} from './GameContext';

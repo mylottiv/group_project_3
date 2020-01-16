@@ -1,5 +1,6 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {BracketContext} from './BracketContext';
+import {TourneyContext} from './TourneyContext';
 
 // function Node(props) {
 //     const {content, index, parent, childNodes, sibling, selected, loser, primed} = props.payload;
@@ -26,6 +27,8 @@ function Node(props) {
 
     const selectNode = useContext(BracketContext).selectNode;
 
+    const observerState = useContext(BracketContext).observed;
+
     console.log('TEST', array, selectNode);
 
     const {content, parent, childNodes, sibling, selected, loser, primed} = array[index];
@@ -35,6 +38,16 @@ function Node(props) {
     const selectedState = (selected ? ' bg-success' : '') + (loser ? ' bg-danger' : '')  + (
         (primed && (!selected && !loser)) ? ' bg-warning' : ''
     );
+
+    useEffect(() => {
+        if (observerState !== {}) {
+            console.log('level 1', observerState);
+            if (observerState.matchWinner = `player${index}`) {
+                console.log('level 2');
+                selectNode(index, sibling, parent);
+            };
+        };
+    }, [observerState])
     
     return (
         <div
