@@ -4,6 +4,7 @@ const socketio = require('socket.io');
 const PORT = process.env.PORT || 3001;
 const server = app.listen(PORT, () => console.log('Server listening on Port ' + PORT));
 const io = socketio(server)
+const generateBracket = require('./generateBracket')
 
 const router = require('./router');
 
@@ -11,172 +12,7 @@ app.use(router);
 
 const initialState = {playerMove: '', oppMove: '', playerScore: 0, oppScore: 0, ready: false, roundWinner: '', matchWinner: ''};
 
-/* 
-
-const tournamentState = {
-    name: "4 Player Tourney",
-    depth: "2",
-    games: [
-        {
-            node: {
-                content: 'Finals,
-                index: 0,
-                parent: 0,
-                sibling: 0
-                child: [1, 2]
-            },
-            gameState:
-            {
-                player1: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                },
-                player2: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                }, 
-                roundWinner: '',
-                matchWinner: ''
-            }
-        },
-        {
-            node: {
-                content: '1st Semi-Finals',
-                index: 1,
-                parent: 0,
-                sibling: 2
-                child: [3, 4]
-            },
-            gameState:
-            {
-                player1: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                },
-                player2: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                }, 
-                roundWinner: '',
-                matchWinner: ''
-            },
-        },
-        {
-            node: {
-                content: 'Champion,
-                index: 0,
-                parent: 0,
-                sibling: 0
-                child: [1, 2]
-            },
-            gameState:
-            {
-                player1: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                },
-                player2: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                }, 
-                roundWinner: '',
-                matchWinner: ''
-            },
-        },
-        {
-            node: {
-                content: '2nd Semi-Finals,
-                index: 2,
-                parent: 0,
-                sibling: 1
-                child: [3, 4]
-            },
-            gameState:
-            {
-                player1: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                },
-                player2: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                }, 
-                roundWinner: '',
-                matchWinner: ''
-            },
-        },
-        {
-            node: {
-                content: 'Player 1',
-                index: 3,
-                parent: 1,
-                sibling: 4,
-                child: [5, 6]
-            },
-            gameState:
-            {
-                player1: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                },
-                player2: {
-                    playerId: '',
-                    currentMove: '',
-                    playerScore: 0,
-                    ready: false,
-                }, 
-                roundWinner: '',
-                matchWinner: ''
-            },
-            {
-                node: {
-                    content: 'Player 1',
-                    index: 3,
-                    parent: 1,
-                    sibling: 4,
-                    child: [5, 6]
-                },
-                gameState:
-                {
-                    player1: {
-                        playerId: '',
-                        currentMove: '',
-                        playerScore: 0,
-                        ready: false,
-                    },
-                    player2: {
-                        playerId: '',
-                        currentMove: '',
-                        playerScore: 0,
-                        ready: false,
-                    }, 
-                    roundWinner: '',
-                    matchWinner: ''
-                },
-            }
-        },
-    ]
-}
-
-*/
+const tourneyState = generateBracket(2);
 
 const testState = {
     player1: {
@@ -195,25 +31,38 @@ const testState = {
     matchWinner: ''
 };
 
-const determinePlayer = (playerId) => {
-    const whichPlayer = (testState.player1.playerId === playerId) ? 'player1' : 'player2';
-    console.log(whichPlayer, 'player');
-    const oppPlayer = (whichPlayer === 'player1') ? 'player2' : 'player1';
-    console.log(oppPlayer, 'opp');
-    return {whichPlayer, oppPlayer}
+const joinOpenGame = (playerId) => {
+    const openPlayerIndex = tourneyState.games.findIndex(item => (item.playerState && item.playerState.playerId === ''));
+    tourneyState.games[openPlayerIndex].playerState.playerId = playerId;
+    const openGame = tourneyState.games[tourneyState.games[openPlayerIndex].nodeState.parent]
+    const [player1, player2] = openGame.nodeState.childNodes;
+    if (tourneyState.games[player1].playerId !== '' && tourneyState.games[player2].playerId !== '') {
+        openGame.gameState.waitingForPlayers = false;
+    };
+    return openGame.nodeState.index
 }
 
-const evaluateRoundWinner = (socket, io, testState) => ({whichPlayer, oppPlayer}, playerMove, oppMove) => {
+const determineGame = (playerId) => {
+    const currentPlayerIndex = tourneyState.games.findIndex(item => (item.playerState && item.playerState.playerId === playerId));
+    console.log(currentPlayerIndex, 'player');
+    const currentPlayer = (currentPlayerIndex % 2 === 0) ? 'player2' : 'player1';
+    const oppPlayer= (currentPlayer === 'player2') ? 'player1' : 'player2';
+    console.log(oppPlayer, 'opp');
+    const parent = tourneyState.games[currentPlayerIndex].nodeState.parent
+    gameIndex = (tourneyState.games[parent].gameState.matchWinner !== currentPlayer) ? parent : tourneyState.games[parent].nodeState.parent;
+    players = (gameIndex === parent) ? {currentPlayer, oppPlayer} : {currentPlayer: (parent % 2 === 0) ? 'player2' : 'player1', oppPlayer: (parent % 2 === 0) ? 'player1' : 'player2'} 
+    return {gameIndex, players};
+}
+
+const evaluateRoundWinner = (socket, io, tourneyState) => (openGameIndex, {currentPlayer, oppPlayer}, playerMove, oppMove) => {
+        const openGame = tourneyState.games[openGameIndex];
         if (oppMove !== '') {
             if (playerMove === oppMove) {
                 console.log(playerMove, oppMove, 'Draw');
-                testState.roundWinner = 'draw'
-                testState[whichPlayer].playerScore++
-                testState[oppPlayer].playerScore++
-                testState[whichPlayer].ready = false;
-                testState[oppPlayer].ready = false;
-                console.log(testState);
-                socket.broadcast.to('game').emit('draw');
+                openGame.gameState.roundWinner = 'Draw'
+                openGame.gameState[currentPlayer].ready = false;
+                openGame.gameState[oppPlayer].ready = false;
+                socket.broadcast.to(openGame.nodeState.content + openGame.nodeState.index).emit('draw');
                 socket.emit('draw');
                 io.to('observer').emit('observer state', testState);
             }
@@ -221,12 +70,11 @@ const evaluateRoundWinner = (socket, io, testState) => ({whichPlayer, oppPlayer}
             playerMove === 'paper' && oppMove === 'rock' ||
             playerMove === 'scissors' && oppMove === 'paper') {
                 console.log(playerMove, oppMove, 'Player wins');
-                testState.roundWinner = whichPlayer;
-                testState[whichPlayer].playerScore++;
-                testState[whichPlayer].ready = false;
-                testState[oppPlayer].ready = false;
-                console.log(testState);
-                socket.broadcast.to('game').emit('player loses round');
+                openGame.gameState.roundWinner = currentPlayer;
+                openGame.gameState[currentPlayer].playerScore++;
+                openGame.gameState[currentPlayer].ready = false;
+                openGame.gameState[oppPlayer].ready = false;
+                socket.broadcast.to(openGame.nodeState.content + openGame.nodeState.index).emit('player loses round');
                 socket.emit('player wins round');
                 io.to('observer').emit('observer state', testState);
             }
@@ -234,38 +82,44 @@ const evaluateRoundWinner = (socket, io, testState) => ({whichPlayer, oppPlayer}
             oppMove === 'paper' && playerMove === 'rock' ||
             oppMove === 'scissors' && playerMove === 'paper') {
                 console.log(playerMove, oppMove, 'Opp wins');
-                testState.roundWinner = oppPlayer;
-                testState[oppPlayer].playerScore++;
-                testState[whichPlayer].ready = false;
-                testState[oppPlayer].ready = false;
-                console.log(testState);
-                socket.broadcast.to('game').emit('player wins round');
+                openGame.gameState.roundWinner = oppPlayer;
+                openGame.gameState[oppPlayer].playerScore++;
+                openGame.gameState[currentPlayer].ready = false;
+                openGame.gameState[oppPlayer].ready = false;
+                socket.broadcast.to(openGame.nodeState.content + openGame.nodeState.index).emit('player wins round');
                 socket.emit('player loses round');
                 io.to('observer').emit('observer state', testState);
             }
         }
 }
 
-const evaluateMatchWinner = (socket, io, testState) => ({whichPlayer, oppPlayer}) => {
+const evaluateMatchWinner = (socket, io, tourneyState) => (openGameIndex, {currentPlayer, oppPlayer}) => {
 
-    if (testState[whichPlayer].playerScore >= 5) {
-        if (testState[oppPlayer].playerScore >= testState[whichPlayer].playerScore) {
-            testState.matchWinner = oppPlayer;
-            socket.broadcast.to('game').emit('player wins match');
-            socket.emit('player loses match');
-            io.to('observer').emit('observer state', testState);
-        }
-        else {
-            testState.matchWinner = whichPlayer;
-            socket.broadcast.to('game').emit('player loses match');
-            socket.emit('player wins match');
-            io.to('observer').emit('observer state', testState);
-        }
+    const openGame = tourneyState.games[openGameIndex];
+    if (openGame.gameState[currentPlayer].playerScore === 3) {
+        const childIndex = (currentPlayer === 'player1') ? 0 : 1;
+        const otherIndex = (childIndex === 0) ? 1 : 0;
+        openGame.gameState.matchWinner = currentPlayer;
+        openGame.nodeState.primed = true;
+        tourneyState.games[openGame.nodeState.childNodes[childIndex]].nodeState.selected = true;
+        tourneyState.games[openGame.nodeState.childNodes[otherIndex]].nodeState.loser = false;
+        socket.broadcast.to(openGame.nodeState.content + openGame.nodeState.index).emit('player loses match');
+        socket.emit('player wins match');
+        io.emit('match updates', tourneyState);
+        socket.leave(tourneyState.games[gameIndex].nodeState.content + gameIndex);
+        io.to('observer').emit('observer state', testState);
     }
-    else if (testState[oppPlayer].playerScore >= 5) {
-        testState.matchWinner = oppPlayer;
-        socket.broadcast.to('game').emit('player wins match');
+    else if (openGame.gameState[oppPlayer].playerScore === 3) {
+        const childIndex = (oppPlayer === 'player1') ? 0 : 1;
+        const otherIndex = (childIndex === 0) ? 1 : 0;
+        openGame.gameState.matchWinner = oppPlayer;
+        openGame.nodeState.primed = true;
+        tourneyState.games[openGame.nodeState.childNodes[childIndex]].nodeState.selected = true;
+        tourneyState.games[openGame.nodeState.childNodes[otherIndex]].nodeState.loser = true;
+        socket.broadcast.to(openGame.nodeState.content + openGame.nodeState.index).emit('player wins match');
         socket.emit('player loses match');
+        io.emit('match updates', tourneyState);
+        socket.leave(tourneyState.games[gameIndex].nodeState.content + gameIndex);
         io.to('observer').emit('observer state', testState);
     }
 }
@@ -273,7 +127,9 @@ const evaluateMatchWinner = (socket, io, testState) => ({whichPlayer, oppPlayer}
 io.on('connection', (socket) => {
     console.log('user connected', socket.id);
 
-    io.emit('initial state', initialState);
+    io.emit('initial game state', initialState);
+
+    io.emit('initialize tournament data', tourneyState);
 
     socket.on('join game', (data, callback) => {
         console.log('test:', data);
@@ -285,10 +141,9 @@ io.on('connection', (socket) => {
         }
 
         else {
-            socket.join('game');
-            let whichPlayer = (testState.player1.playerId !== '') ? 'player2' : 'player1';
-            testState[whichPlayer].playerId = socket.id;
-            console.log('player Join Test', whichPlayer, testState[whichPlayer].playerId)
+            const gameIndex = joinOpenGame(socket.id);
+            console.log(gameIndex);
+            socket.join(tourneyState.games[gameIndex].nodeState.content + gameIndex)
         }
     })
 
@@ -311,7 +166,7 @@ io.on('connection', (socket) => {
 
         const {move} = data
 
-        console.log('SELECTION FIRED', data, testState);
+        console.log('SELECTION FIRED', data,);
 
         let error = (data || data === '') ? false : true;
 
@@ -325,12 +180,14 @@ io.on('connection', (socket) => {
         // }
 
         else {
-            const players = determinePlayer(socket.id);
-            testState[players.whichPlayer].currentMove = move;
-            testState[players.whichPlayer].ready = true;
-            evaluateRoundWinner(socket, io,  testState)(players, testState[players.whichPlayer].currentMove, testState[players.oppPlayer].currentMove)
-            socket.broadcast.to('game').emit('opp move selected', move);
-            evaluateMatchWinner(socket, io, testState)(players);
+            const {gameIndex, players} = determineGame(socket.id);
+            console.log(gameIndex, players);
+            console.log(tourneyState.games[gameIndex]);
+            tourneyState.games[gameIndex].gameState[players.currentPlayer].currentMove = move;
+            tourneyState.games[gameIndex].gameState[players.currentPlayer].ready = true;
+            evaluateRoundWinner(socket, io,  tourneyState)(gameIndex, players, move, tourneyState.games[gameIndex].gameState[players.oppPlayer].currentMove)
+            socket.broadcast.to(tourneyState.games[gameIndex].nodeState.content + gameIndex).emit('opp move selected', move);
+            evaluateMatchWinner(socket, io, tourneyState)(gameIndex, players);
         }
     })
 
@@ -344,15 +201,34 @@ io.on('connection', (socket) => {
             callback( {error: 'error'} )
         }
 
-        const {whichPlayer, oppPlayer} = determinePlayer(socket.id);
-        testState[whichPlayer].ready = true;
-        if (testState[oppPlayer].ready) {
-            testState.roundWinner = '';
-            testState[whichPlayer].currentMove = '';
-            testState[oppPlayer].currentMove = '';
-            io.to('game').emit('new round')
+        const {gameIndex, players} = determineGame(socket.id);
+        tourneyState.games[gameIndex].gameState[players.currentPlayer].ready = true;
+        if (tourneyState.games[gameIndex].gameState[players.oppPlayer].ready) {
+            tourneyState.games[gameIndex].gameState.roundWinner = '';
+            tourneyState.games[gameIndex].gameState[players.currentPlayer].currentMove = '';
+            tourneyState.games[gameIndex].gameState[players.oppPlayer].currentMove = '';
+            io.to(tourneyState.games[gameIndex].nodeState.content + gameIndex).emit('new round')
         } 
     })
+
+    socket.on('ready for next match', (data, callback) => {
+
+        console.log('test:', data);
+
+        let error = (data) ? false : true;
+
+        if (error) {
+            callback( {error: 'error'} )
+        }
+        const {gameIndex, players} = determineGame(socket.id);
+        tourneyState.games[gameIndex].gameState[players.currentPlayer].ready = true;
+        socket.join(tourneyState.games[gameIndex].nodeState.content + gameIndex);
+        console.log('Match Check', tourneyState.games[0], tourneyState.games[1], tourneyState.games[2]);
+        socket.emit('initial game state', initialState);
+
+
+
+    } )
 
     socket.on('disconnect', (socket) => {
         console.log('user disconnected')
