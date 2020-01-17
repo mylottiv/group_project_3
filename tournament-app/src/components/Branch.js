@@ -9,7 +9,7 @@ function Branch(props) {
         console.log('stage', stage, Math.pow(2, (stage - 1)));
         branchImages.push(
             <div className='col text-center h-100' key={'Stage-' + stage + '-image-' + i}>
-                <img className='w-50 h-100' src={'../branch.svg'} />
+                <img className='w-50 h-100' src={'./branch.svg'} />
             </div>
         )
 

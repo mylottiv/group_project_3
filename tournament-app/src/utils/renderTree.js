@@ -1,5 +1,6 @@
 import React from 'react';
 import {Node, Round} from '../components';
+import '../index.css'
 
 
 function renderTree(arr, selectNode) {
@@ -34,7 +35,7 @@ function renderTree(arr, selectNode) {
         let trueIndex = (i !== 1) ? Math.floor(i/2) : i - 1;
         console.log(i, trueIndex);
         for (let j = 0; j < Math.pow(2, trueIndex); j++) {
-          row.push(<div className='col text-center h-100'><img className='w-50 h-100' src={'./branch.svg'}></img></div>)
+          row.push(<div  className='bracket col text-center h-100'><img className='w-50 h-100' src={'./branch.svg'}></img></div>)
         }
       }
   

@@ -1,6 +1,6 @@
 import React, {useState, useContext, createContext} from 'react';
 import {TourneyContext} from './TourneyContext'
-import {generateBracket, selectNodeRaw} from '../utils';
+import {generateBracket, renderTree, selectNodeRaw} from '../utils';
 
 export const BracketContext = createContext();
 
