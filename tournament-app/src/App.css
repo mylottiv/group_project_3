@@ -9,6 +9,7 @@ nav{
   min-height: 10vh;
   background :lightblue;
   color: white;
+  margin-bottom: 40px;
 }
 
 .nav-links{
