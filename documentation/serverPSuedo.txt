@@ -1,0 +1,24 @@
+Matchup management(lobby) backend
+Game management in game. Who wins, results sent to server. 
+Results storage to mongo + connection need sockets (work with Thomas)
+
+Lobby setup
+
+1. Login - Get auth0 token & parse out userID string & nickname & add to mongo userDB.
+
+2. Create tourney in lobby
+	a. Select size of bracket. 4, 8, or 16 only
+	b. Select game.
+	c. Name the Tourney.
+	d. Get a unique token for tourney. Cat JWT's from users
+	e. Send tourney JSON to server/Mongo.
+
+3. List Tourney in lobby list. Pull from Server/Mongo.
+
+4. Select Tourney from list.
+	a. Join - First come first serve for seeding in to Tourney JSON - Import user JSON fields in to tourney bracket JSON on server.
+	b. Update DOM/component
+	c. Wait for others to join.
+	d. Detect when full.
+	e. Matchups paired by Thomas' binary algorithm.
+	f. Send start signals to clients for games to start(sockets?)

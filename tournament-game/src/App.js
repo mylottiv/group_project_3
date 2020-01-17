@@ -21,14 +21,14 @@ function App(props) {
         <Route path='/:number' 
           render={(props) => {
             return (
-              <div className='row' id='tournament-container'>
-                <TourneyProvider {...props}>
-                    <Bracket />
-                </TourneyProvider>
-              </div>
+            <div className='row' id='tournament-container'>
+              <TourneyProvider {...props}>
+                  <Bracket />
+              </TourneyProvider>
+            </div>
             )
           }}
-        />
+         />
       </Switch>
     </div>
   )

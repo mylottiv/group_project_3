@@ -10,7 +10,7 @@ class App extends Component {
   render() {
       let mainComponent = ""
       switch(this.props.location) {
-        case "":
+        case " ":
           mainComponent = <Main {...this.props}/>;
           break;
         case "callback":
