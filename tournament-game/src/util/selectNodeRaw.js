@@ -3,7 +3,7 @@ const selectNodeRaw = (array, setArray) => (target, sibling, parent) => {
     if (target === 0 && array[1].primed && array[2].primed) {
         setArray(array.map((elem, i) => {
             if ( i === target) {
-                return {...elem, selected: true};
+                return {...elem.nodeState, selected: true};
             }
         }));
     }
@@ -15,17 +15,17 @@ const selectNodeRaw = (array, setArray) => (target, sibling, parent) => {
         (elem, i) => {
             if (i !== target) {
                 if (i === sibling) {
-                    return {...elem, loser: !elem.loser, selected: false};
+                    return {...elem.nodeState, loser: !elem.loser, selected: false};
                 }
                 else if (i === parent) {
-                    return {...elem, primed: true}
+                    return {...elem.nodeState, primed: true}
                 }
                 else {
                     return elem;
                 }
             }
             else {
-                return {...elem, selected: !elem.selected, loser: false}
+                return {...elem.nodeState, selected: !elem.selected, loser: false}
             };
         }
     ));

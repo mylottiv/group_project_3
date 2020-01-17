@@ -21,7 +21,7 @@ export const GameProvider = (props) => {
             case 'player_loses_round':
                 return {...state, oppScore: state.oppScore + 1, ready: false, roundWinner: 'Opp'}
             case 'draw':
-                return {...state, oppScore: state.oppScore + 1, playerScore: state.playerScore + 1, ready: false, roundWinner: 'Draw'}
+                return {...state, ready: false, roundWinner: 'Draw'}
             case 'player_wins_match':
                 return {...state, matchWinner: 'Player'}
             case 'player_loses_match':
@@ -43,7 +43,7 @@ export const GameProvider = (props) => {
         socket = io('localhost:3001');
         console.log('hello', socket);
         socket.emit('join game', 'test', ({error}) => alert(error));
-        socket.on('initial state', (data) => {
+        socket.on('initial game state', (data) => {
             dispatch({type: 'initialize_state', payload: data});
         })
         socket.on('opp move selected', (data) => {
@@ -82,12 +82,15 @@ export const GameProvider = (props) => {
     useEffect(() => {
         console.log(value.state.ready, value.state.playerMove);
         if (value.state.ready === true) {
-            if (value.state.roundWinner === '') {
+            if (value.state.roundWinner === '' && value.state.matchWinner === '') {
                 console.log('triggered', value.state.ready, value.state.playerMove);
                 socket.emit('move selected', {move: value.state.playerMove}, ({error}) => alert(error));
             }
-            else {
+            else if (value.state.matchWinner === '') {
                 socket.emit('ready for next round', {}, ({error}) => alert(error))
+            }
+            else if (value.state.matchWinner === 'Player') {
+                socket.emit('ready for next match', {}, ({error}) => alert(error))
             }
         }
 

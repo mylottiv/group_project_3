@@ -31,7 +31,7 @@ function Node(props) {
 
     console.log('TEST', array, selectNode);
 
-    const {content, parent, childNodes, sibling, selected, loser, primed} = array[index];
+    const {content, parent, childNodes, sibling, selected, loser, primed} = array[index].nodeState;
     
     const [leftChild, rightChild] = childNodes;
 

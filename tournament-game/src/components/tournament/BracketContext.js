@@ -8,7 +8,7 @@ export const BracketContext = createContext();
 export const BracketProvider = (props) => {
     
     const size = props.size;
-    const [array, setArray] = useState(generateBracket(size));
+    const [array, setArray] = useState(generateBracket(size).games);
     const selectNode = selectNodeRaw(array, setArray);
     const [observed, setObserved] = useState({})
     console.log(observed, 'observe')

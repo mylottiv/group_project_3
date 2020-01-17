@@ -67,22 +67,52 @@ function generateBracket(size) {
             break;
           };
         };
-        let content = (row === size) ? 'Name' : rounds[row];
+        let isPlayer = (row === size);
+        let content = (isPlayer) ? 'Player' : rounds[row];
         console.log('content', content);
-        bracket.push({
-          content: content,
-          index: i,
-          parent: parent.index,
-          childNodes: [2 * i + 1, 2 * i + 2],
-          sibling: (i !== 0) ? ((i % 2 === 0) ? i-1 : i+1) : null,
-          selected: false,
-          loser: false,
-          primed: (row === size) ? true : false
-        });
+        let node = {
+          nodeState: {
+            content: content,
+            index: i,
+            parent: parent.index,
+            childNodes: [2 * i + 1, 2 * i + 2],
+            sibling: (i !== 0) ? ((i % 2 === 0) ? i-1 : i+1) : null,
+            selected: false,
+            loser: false,
+            primed: (row === size) ? true : false
+          }
+        }
+        if (isPlayer) {
+          node.playerState = {
+            playerName: 'name'
+          }
+        }
+        else {
+          node.gameState = {
+            player1: {
+                playerId: '',
+                currentMove: '',
+                playerScore: 0,
+                ready: false,
+            },
+            player2: {
+                playerId: '',
+                currentMove: '',
+                playerScore: 0,
+                ready: false,
+            }, 
+            roundWinner: '',
+            matchWinner: ''
+          }
+        }
+        bracket.push(node);
   
     };
   
-    return bracket;
+    return {
+      name: "4 Player Tourney",
+      depth: "2",
+      games: bracket};
   
   }
 

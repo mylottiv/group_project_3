@@ -1,7 +1,8 @@
 import React from 'react';  
 import {Bracket, TourneyProvider, DebugToolbar} from './components/tournament';
-import {Switch, Route, Link} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import {Game} from './components/game';
+import {BracketDebug, TourneyProviderDebug} from './components/debug';
 
 function App(props) {
 
@@ -15,6 +16,22 @@ function App(props) {
               <div className='row' id='game-container'>
                 <Game {...props} />
               </div>
+            )
+          }}
+        />
+        <Route exact path='/gameBracket' 
+          render={(props) => {
+            return (
+            <>
+            <div className='row' id='tournament-container'>
+              <TourneyProviderDebug {...props}>
+                  <BracketDebug />
+              </TourneyProviderDebug>
+            </div>
+            <div className='row' id='game-container'>
+              <Game {...props}></Game>
+            </div>
+            </>
             )
           }}
         />
