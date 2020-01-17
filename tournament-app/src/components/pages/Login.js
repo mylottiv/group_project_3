@@ -1,12 +1,11 @@
 import React from 'react';
-import '../App.css';
 
-function About() {
+function Login() {
   return (
     <div className="App">
-      <h1>About</h1>
+      <h1>Login</h1>
     </div>
   );
 }
 
-export default About;
+export default Login;
