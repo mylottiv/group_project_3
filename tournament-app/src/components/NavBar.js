@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react';
-import {BracketContext} from './BracketContext';
+import {Link} from 'react-router-dom'
 import '../App.css';
 
-function Navbar(props) {
+function NavBar(props) {
 
 
         return (
@@ -22,6 +22,9 @@ function Navbar(props) {
                   <a className="nav-link" href="#">Link</a>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link" href="/tournament">Tournament</a>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
               </ul>
@@ -30,27 +33,17 @@ function Navbar(props) {
                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
-          </nav>
+            </nav>
+            {/* NEW - add a link to the home and profile pages */}
+            {props.isAuthenticated && (
+              <span>
+                <Link to="/">Home</Link>&nbsp;
+                <Link to="/profile">Profile</Link>
+                <Link to="/tournament">Tournament</Link>
+                <Link to="/about">About</Link>
+              </span>
+            )}
           </div>
-        );
-
+  )
 }
-
-<<<<<<< HEAD
-export default Navbar;
-=======
-      {/* NEW - add a link to the home and profile pages */}
-    {isAuthenticated && (
-      <span>
-        <Link to="/">Home</Link>&nbsp;
-        <Link to="/profile">Profile</Link>
-        <Link to="/tournament">Tournament</Link>
-        <Link to="/about">About</Link>
-      </span>
-    )}
-    </div>
-  );
-};
-
 export default NavBar;
->>>>>>> 580d5ae877946458a00ef96b92305494b639d877
