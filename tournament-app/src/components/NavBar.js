@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom'
 import '../App.css';
 import { useAuth0 } from "../react-auth0-spa";
-import profile from "./pages/Profile"
 
 
 const NavBar = (props) => {
@@ -12,18 +11,14 @@ const NavBar = (props) => {
   return (
 
   <div>
-              <div>
-                {isAuthenticated && (
-                  <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-                    <a className="nacbar-brand" href="#"></a>
-                      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                      <span className="navbar-toggler-icon"></span>
-                    </button>
-                  <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-
-                    {/* <li className="nav-item active">
-                      <a className="nav-link text-light" href="#">Home <span className="sr-only">(current)</span></a>
-                    </li> */}
+      <div>
+          {isAuthenticated && (
+            <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+              <a className="nacbar-brand" href="#"></a>
+              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+              </button>
+                <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li className="nav-item active">
                     <Link to={{
                       pathname: '/',
@@ -40,9 +35,7 @@ const NavBar = (props) => {
                         state: {
                           isAuthenticated: true
                         }
-                      }}><a className="nav-link" href="/profile">Profile</a></Link>
-                        
-                      
+                      }}><a className="nav-link" href="/profile">Profile</a></Link>  
                     </li>
 
                     <li className="nav-item">
@@ -82,41 +75,17 @@ const NavBar = (props) => {
                   <Fragment>
                   <img className="profile" src={user.picture} alt="Profile" />
                   </Fragment>
-                  </nav>
-                )}
-                {!isAuthenticated &&(
-                  <button onClick={() => loginWithRedirect({})}>Log in</button>
-                )}
-
-                
-                {isAuthenticated && (
-                <span>
-                  <Link to="/">Home</Link>&nbsp;
-                  <Link to="/profile">Profile</Link>
-                </span>
-              )}
-              
-              </div>
+            </nav>
+        )}
+      {!isAuthenticated &&(
+        <button onClick={() => loginWithRedirect({})}>Log in</button>
+      )}
+    </div>
 
               
-            </div>
+  </div>
   );
 };
-    // <div>
-    //   {!isAuthenticated && (
-    //     <button onClick={() => loginWithRedirect({})}>Log in</button>
-    //   )}
-
-    //   {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-
-    //       {/* NEW - add a link to the home and profile pages */}
-    //       {isAuthenticated && (
-    //         <span>
-    //           <Link to="/">Home</Link>&nbsp;
-    //           <Link to="/profile">Profile</Link>
-    //         </span>
-    //       )}
-    // </div>
   
 
 
