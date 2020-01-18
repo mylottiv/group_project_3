@@ -1,7 +1,7 @@
 import React from 'react';
-import Node from './Node';
+import NodeDebug from './NodeDebug';
 
-function Pairings(props) {
+function PairingsDebug(props) {
     const {stage} = props;
 
     const indexPointer = Math.pow(2, stage) - 1;
@@ -12,7 +12,7 @@ function Pairings(props) {
 
     for (let i = indexPointer; i <= indexPointer * 2; i++) {
           
-        matchups.push(<Node key={'node-' + i} index={i}/>)
+        matchups.push(<NodeDebug key={'node-' + i} index={i}/>)
       
     };
 
@@ -23,4 +23,4 @@ function Pairings(props) {
     )
 };
 
-export default Pairings;
+export default PairingsDebug;

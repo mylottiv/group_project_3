@@ -1,5 +1,5 @@
 import React from 'react';
-import Node from './Node';
+import Node from '../Node';
 
 function Champion(props) {
 
