@@ -19,3 +19,8 @@ nav{
   align-items: center;
   list-style: none;
 }
+
+.profile {
+  max-width: 50px;
+  max-height: 50px;
+}
