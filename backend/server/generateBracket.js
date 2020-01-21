@@ -77,7 +77,7 @@ function generateBracket(size) {
             parent: parent.index,
             childNodes: [2 * i + 1, 2 * i + 2],
             sibling: (i !== 0) ? ((i % 2 === 0) ? i-1 : i+1) : null,
-            selected: false,
+            winner: false,
             loser: false,
             primed: (row === size) ? true : false
           }

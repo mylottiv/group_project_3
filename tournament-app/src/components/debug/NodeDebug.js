@@ -53,12 +53,12 @@ function NodeDebug(props) {
 
     if (currentNode !== null) {
         
-        const {selected, loser, primed} = currentNode;
+        const {winner, loser, primed} = currentNode;
             
-        console.log(selected, loser, primed)
+        console.log(winner, loser, primed)
     
-        selectedState = (selected ? ' bg-success' : '') + (loser ? ' bg-danger' : '')  + (
-            (primed && (!selected && !loser)) ? ' bg-warning' : '');
+        selectedState = (winner ? ' bg-success' : '') + (loser ? ' bg-danger' : '')  + (
+            (primed && (!winner && !loser)) ? ' bg-warning' : '');
 
         return (
             <div
