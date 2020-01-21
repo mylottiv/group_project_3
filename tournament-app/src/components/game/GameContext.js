@@ -31,7 +31,12 @@ export const GameProvider = (props) => {
             case 'reset_moves':
                 return {...state, playerMove: '', oppMove: '', ready: false, roundWinner: ''}
             case 'ready':
-                return{...state, ready: true}
+                if (state.playerMove === '' || state.oppMove === '') {
+                    return state
+                }
+                else {
+                    return{...state, ready: true}
+                }
             default:
                 return state;
         }

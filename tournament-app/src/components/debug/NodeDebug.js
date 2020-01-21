@@ -65,7 +65,7 @@ function NodeDebug(props) {
                 className={'col card text-center' + selectedState}
                 id={'node-' + index}
             >
-                    <button className='btn-light' type='button'>{currentNode.content}</button>
+                    <h5>{currentNode.content}</h5>
             </div>
         )
     }  
@@ -76,7 +76,7 @@ function NodeDebug(props) {
                 className={'col card text-center' + selectedState}
                 id={'node-' + index}
             >
-                    <button className='btn-light' type='button'>{index}</button>
+                    <h5>{index}</h5>
             </div>
             )
     };

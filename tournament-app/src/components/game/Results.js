@@ -15,7 +15,7 @@ function Results() {
                     Winner: {roundWinner} Big Winner: {matchWinner}
                 </div>
                 <div className='row'>
-                    <button className='btn-block' onClick={readyUp}>Ready?</button>
+                    <button className='btn-block' onClick={readyUp}>{(matchWinner === 'Player') ? `Ready for next match? ${ctx.state.ready}` : `Ready for next round? ${ctx.state.ready}`}</button>
                 </div>
             </div>
         </div>
